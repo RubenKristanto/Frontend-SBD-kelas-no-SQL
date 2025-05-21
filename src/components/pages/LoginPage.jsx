@@ -6,28 +6,28 @@ import axios from "axios";
 export default function LoginPage() {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
         try {
-        console.log(email, password);
+        console.log(username, password);
 
         // Validasi input kosong
-        if (!email && !password) {
+        if (!username && !password) {
             await swal.fire({
             icon: "error",
             iconColor: "#FFFFFF",
-            text: "Silahkan masukkan email dan password terlebih dahulu",
+            text: "Silahkan masukkan username dan password terlebih dahulu",
             color: "#FFFFFF",
             background: "#303655",
             });
             return;
-        } else if (!email) {
+        } else if (!username) {
             await swal.fire({
             icon: "error",
             iconColor: "#FFFFFF",
-            text: "Silahkan masukkan email terlebih dahulu",
+            text: "Silahkan masukkan username terlebih dahulu",
             color: "#FFFFFF",
             background: "#303655",
             });
@@ -44,16 +44,20 @@ export default function LoginPage() {
         }
 
         // Kirim permintaan login ke backend
-        const response = await axios.post("https://localhost:5000/user/login", {
-            email: this.email,
-            password: this.password,
+        const response = await axios.post("http://localhost:3000/account/loginAccount", {
+            username: username,
+            password: password,
         });
 
         // Jika login berhasil
         if (response.status === 200) {
-            const userId = response.data.payload.id;
-            localStorage.setItem("id", userId); // Simpan email ke localStorage
+            localStorage.clear()
+            const accountId = response.data.data._id;
+            const accountUser = response.data.data.username;
+            localStorage.setItem("id", accountId); // Simpan username & id ke localStorage
+            localStorage.setItem("user", accountUser);
 
+            console.log(localStorage)
             await swal.fire({
             icon: "success",
             iconColor: "#FFFFFF",
@@ -71,7 +75,7 @@ export default function LoginPage() {
             await swal.fire({
             icon: "error",
             iconColor: "#FFFFFF",
-            text: "Email atau password salah",
+            text: "Username atau password salah",
             color: "#FFFFFF",
             background: "#303655",
             });
@@ -101,21 +105,21 @@ export default function LoginPage() {
             <div className="w-[40%] h-[80%] bg-white rounded-3xl shadow-lg flex-col flex items-center justify-center bg-gradient-to-b from-sky-700 to-blue-900">
             <p className="text-3xl font-bold text-white pb-2">Login</p>
             <div className="w-[85%] h-[80%] flex flex-col items-center justify-center bg-white rounded-3xl opacity-75">
-                <p className="text-black self-start mb-2 pl-6">Email</p>
+                <p className="text-black self-start mb-2 mx-auto">Username</p>
                 <div className="w-full max-w-sm min-w-[200px] px-3">
                 <div className="relative">
                     <input
                     className="peer w-full bg-transparent placeholder:text-slate-400 text-black text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     />
                     <label className="absolute cursor-text bg-white px-1 left-2.5 top-2.5 text-black text-sm transition-all transform origin-left peer-focus:-top-2 peer-focus:left-2.5 peer-focus:text-xs peer-focus:text-slate-400 peer-focus:scale-90">
-                    Email
+                    Username
                     </label>
                 </div>
                 </div>
 
-                <p className="text-black self-start mt-8 mb-2 pl-6">Password</p>    
+                <p className="text-black self-start mt-8 mb-2 mx-auto">Password</p>    
                 <div className="w-full max-w-sm min-w-[250px] px-3">
                 <div className="relative">
                     <input

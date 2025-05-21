@@ -109,13 +109,12 @@ export default function RegisterPage(){
                     throw new Error("Invalid password format");
                 }
                 console.log("Sending request to endpoint")
-                    const response = await axios.post("https://localhost:5000/user/addUser",{
-                        name: this.name,
-                        email:  this.email,
-                        password: this.password,
-                        
+                    const response = await axios.post("http://localhost:3000/account/addAccount",{
+                        username: name,
+                        email:  email,
+                        password: password
                     });
-                    console.log(this.name, this.email, this.password),
+                    // console.log(this.name, this.email, this.password),
                     console.log(response.data);
                     if(response.data.payload) {
                         swal.fire({
@@ -140,10 +139,10 @@ export default function RegisterPage(){
     return (
         <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-blue-950">
                 <div className="w-[40%] h-[80%] bg-white rounded-3xl shadow-lg flex-col flex items-center justify-center bg-gradient-to-b from-sky-700 to-blue-900">
-                    <p className="text-3xl font-bold text-white pb-2">Register Now</p>
+                    <p className="text-3xl font-bold text-white pb-2">Register</p>
                     <div className="w-[85%] h-[80%] flex flex-col items-center justify-center bg-white rounded-3xl opacity-75">
                         
-                        <p className="text-black  self-start mb-2 pl-6 ">
+                        <p className="text-black  self-start mb-2 mx-auto ">
                             Name
                         </p>
                         <div className="w-full max-w-sm min-w-[200px] px-3">
@@ -159,7 +158,7 @@ export default function RegisterPage(){
                             </div>
                         </div>
                         
-                        <p className="text-black  self-start mb-2 pl-6 mt-6">
+                        <p className="text-black  self-start mb-2 mx-auto mt-6">
                             Email
                         </p>
                         <div className="w-full max-w-sm min-w-[200px] px-3">
@@ -175,7 +174,7 @@ export default function RegisterPage(){
                             </div>
                         </div>
 
-                        <p className="text-black  self-start mt-8 mb-2 pl-6">
+                        <p className="text-black  self-start mt-8 mb-2 mx-auto">
                             Password
                         </p>
                         <div className="w-full max-w-sm min-w-[200px] px-3">
