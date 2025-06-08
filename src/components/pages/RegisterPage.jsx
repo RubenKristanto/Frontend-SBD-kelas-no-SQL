@@ -116,7 +116,7 @@ export default function RegisterPage(){
                     });
                     // console.log(this.name, this.email, this.password),
                     console.log(response.data);
-                    if(response.data.payload) {
+                    if(response.data) {
                         swal.fire({
                             icon: "success",
                             iconColor: "#FFFFFF",
