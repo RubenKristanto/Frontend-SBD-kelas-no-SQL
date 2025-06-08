@@ -17,14 +17,37 @@
 
 // src/pages/LibraryPage.jsx
 
-import React from 'react';
-// Pastikan path ke Navbar (yang Anda sebut Navigation) sudah benar
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Navbar from "../elements/Navbar.jsx"; // Pastikan ini mengarah ke file Navigation.jsx Anda
 
 export default function LibraryPage() {
+    const [games, setGames] = useState([{}]);
+    const [gamesLength, setGamesLength] = useState(0);
 
 
-    
+    const userId = localStorage.getItem("id");
+
+    const getData = async () => {
+        try{
+        const data = await axios.get("http://localhost:3000/account/byId", {
+            user_id: userId
+        }); 
+
+        setGames(data.data.games);
+        console.log(data.data.games);
+        console.log(games);
+        setGamesLength(data.games.length);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+
     return (
         <div className="flex min-h-screen bg-gray-900 text-white">
             <Navbar />
